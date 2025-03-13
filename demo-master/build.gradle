@@ -1,13 +1,15 @@
 buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
-  }
-  dependencies {
-    // https://plugins.gradle.org/plugin/com.github.spacialcircumstances.gradle-cucumber-reporting
-    classpath "com.github.spacialcircumstances:gradle-cucumber-reporting:0.1.23"
-  }
+    dependencies {
+        classpath "com.github.spacialcircumstances:gradle-cucumber-reporting:0.1.23"
+        classpath "org.gretty:gretty:3.0.6"
+    }
 }
 
 plugins {
