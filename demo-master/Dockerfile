@@ -1,4 +1,4 @@
-FROM gradle:8-jdk11
+FROM gradle:7.6.1-jdk11
 
 RUN mkdir /home/app
 WORKDIR /home/app
