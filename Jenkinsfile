@@ -2,7 +2,7 @@
 
 pipeline {
 
-  agent any
+  agent docker
 
    environment {
         // This is set so that the Python API tests will recognize it
