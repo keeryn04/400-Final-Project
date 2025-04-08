@@ -2,7 +2,14 @@
 
 pipeline {
 
-  agent any
+  agent {
+        docker {
+            image 'evanmann/ensf400-final-project:apprun'
+            args '-it -p 8080:8080'
+            //registryUrl 'https://index.docker.io/v1/'
+            //registryCredentialsId 'your-credentials-id'
+        }
+    }
 
    environment {
         // This is set so that the Python API tests will recognize it
