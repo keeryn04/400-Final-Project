@@ -25,15 +25,16 @@ pipeline {
 
     // build the war file (the binary).  This is the only
     // place that happens.
+
     stage('Checkout') {
-        steps {
-            script {
-                // Change to the 'demo-master' folder before checking out the code
-                dir('demo-master') {
-                    checkout scm
-                }
-            }
-        }
+      steps {
+          script {
+              // Change to the 'demo-master' folder before checking out the code
+              dir('demo-master') {
+                  checkout scm
+                  }
+              }
+          }
     }
 
     stage('Build') {
@@ -41,6 +42,8 @@ pipeline {
             script {
                 // Change to the 'demo-master' folder before running gradle
                 dir('demo-master') {
+                    sh 'chmod +x gradlew'
+                    sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew clean assemble'
                     sh './gradlew clean assemble'
                 }
             }
