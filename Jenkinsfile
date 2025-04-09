@@ -28,6 +28,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'chmod +x gradlew'
+        sh 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk && ./gradlew clean assemble'
         sh './gradlew clean assemble'
       }
     }
