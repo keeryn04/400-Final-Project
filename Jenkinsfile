@@ -27,6 +27,7 @@ pipeline {
     // place that happens.
     stage('Build') {
       steps {
+        sh 'chmod +x gradlew'
         sh './gradlew clean assemble'
       }
     }
