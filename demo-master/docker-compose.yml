@@ -1,0 +1,12 @@
+services:
+  apprun:
+    image: evanmann/ensf400-final-project:apprun
+    ports: 
+      - "8080:8080"
+    stdin_open: true
+    tty: true
+
+  runAllTests:
+    image: evanmann/ensf400-final-project:runalltests
+    depends_on:
+    - apprun
