@@ -10,6 +10,10 @@ pipeline {
             //registryCredentialsId 'your-credentials-id'
         }
     }
+    
+  tools {
+    jdk 'jdk11'
+  }
 
    environment {
         // This is set so that the Python API tests will recognize it
