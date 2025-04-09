@@ -4,7 +4,7 @@ pipeline {
 
   agent {
         docker {
-            image 'evanmann/ensf400-final-project:apprun'
+            image 'evanmann/ensf400-final-project:projectDependencies'
             args '-it'
             //registryUrl 'https://index.docker.io/v1/'
             //registryCredentialsId 'your-credentials-id'
