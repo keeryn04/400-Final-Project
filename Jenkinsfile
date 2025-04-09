@@ -44,7 +44,6 @@ pipeline {
                 dir('demo-master') {
                     sh 'chmod +x gradlew'
                     sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew clean assemble'
-                    sh './gradlew clean assemble'
                 }
             }
         }
