@@ -11,5 +11,3 @@ RUN pipenv install
 
 #specifying the chromedriver location
 ENV PATH="/home/app/chromedriver-win64:$PATH"
-
-CMD ["./gradlew", "runAllTests"]
