@@ -52,14 +52,19 @@ pipeline {
     // run all the unit tests - these do not require anything else
     // to be running and most run very quickly.
     stage('Unit Tests') {
-      steps {
-        sh './gradlew test'
-      }
-      post {
-        always {
-          junit 'build/test-results/test/*.xml'
+        steps {
+            script {
+                // Change to the 'demo-master' folder before running gradle tests
+                dir('demo-master') {
+                    sh './gradlew test'
+                }
+            }
         }
-      }
+        post {
+            always {
+                junit 'demo-master/build/test-results/test/*.xml'
+            }
+        }
     }
 
     // run the tests which require connection to a
