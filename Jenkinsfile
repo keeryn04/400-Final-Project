@@ -109,6 +109,7 @@ pipeline {
         }
       }
     }
+    //DOCKER IMAGE NEED SONARQUBE SET UP
 
 
     // Move the binary over to the test environment and
@@ -116,15 +117,18 @@ pipeline {
     // require a whole system to be running.
     stage('Deploy to Test') {
       steps {
-      sh './gradlew deployToTestWindowsLocal'
-      // pipenv needs to be installed and on the path for this to work.
-      sh 'PIPENV_IGNORE_VIRTUALENVS=1 pipenv install'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew deployToTestWindowsLocal'
+          // pipenv needs to be installed and on the path for this to work.
+          sh 'PIPENV_IGNORE_VIRTUALENVS=1 pipenv install'
 
-      // Wait here until the server tells us it's up and listening
-      sh './gradlew waitForHeartBeat'
+          // Wait here until the server tells us it's up and listening
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew waitForHeartBeat'
 
-      // clear Zap's memory for the incoming tests
-      sh 'curl http://zap/JSON/core/action/newSession -s --proxy localhost:9888'
+          // clear Zap's memory for the incoming tests
+          sh 'curl http://zap/JSON/core/action/newSession -s --proxy localhost:9888'
+        }
+      
       }
     }
 
