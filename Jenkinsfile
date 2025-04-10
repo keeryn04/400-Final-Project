@@ -53,11 +53,8 @@ pipeline {
     // to be running and most run very quickly.
     stage('Unit Tests') {
         steps {
-            script {
-                // Change to the 'demo-master' folder before running gradle tests
-                dir('demo-master') {
-                    sh './gradlew test'
-                }
+            dir('demo-master') {
+                sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew test'
             }
         }
         post {
