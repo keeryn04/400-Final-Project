@@ -117,6 +117,7 @@ pipeline {
     // Move the binary over to the test environment and
     // get it running, in preparation for tests that
     // require a whole system to be running.
+    /*
     stage('Deploy to Test') {
       steps {
         dir('demo-master') {
@@ -133,12 +134,16 @@ pipeline {
       
       }
     }
+    */
 
 
     // Run the tests which investigate the functioning of the API.
     stage('API Tests') {
       steps {
-        sh './gradlew runApiTests'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew runApiTests'
+        }
+       
       }
       post {
         always {
