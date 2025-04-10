@@ -9,3 +9,7 @@ services:
     container_name: jenkins
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins_home:/var/jenkins_home
+    restart: unless-stopped
+volumes:
+  jenkins_home:
