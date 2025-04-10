@@ -256,4 +256,12 @@ pipeline {
 
   }
 
+  post {
+        success {
+            githubNotify context: 'Jenkins CI', status: 'SUCCESS'
+        }
+        failure {
+            githubNotify context: 'Jenkins CI', status: 'FAILURE'
+        }
+    }
 }
