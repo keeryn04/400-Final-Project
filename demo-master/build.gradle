@@ -645,7 +645,12 @@ task deployToTestWindowsLocal(type: Copy) {
     }
 
     doLast {
-        sleep 5 * 1000
+        exec {
+            workingDir "${project.property('deploy_directory')}/../bin"
+            commandLine 'cmd', '/c', 'startup.bat'
+        }
+        println "Tomcat starting..."
+        sleep(10 * 1000) // give it a few seconds before heartbeat check
     }
 }
 
