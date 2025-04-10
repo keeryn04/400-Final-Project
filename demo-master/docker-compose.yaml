@@ -9,9 +9,10 @@ services:
     container_name: jenkins
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins_home:/var/jenkins_home
+    restart: unless-stopped
     networks:
       - ci-net
-
   sonarqube:
     image: sonarqube:9.9-community
     container_name: sonarqube
@@ -45,6 +46,7 @@ volumes:
   sonarqube_data:
   sonarqube_extensions:
   postgresql:
+  jenkins_home:
 
 networks:
   ci-net:
