@@ -1,0 +1,11 @@
+services:
+  jenkins:
+    build: .
+    privileged: true
+    user: root
+    ports:
+      - 9090:8080
+      - 50000:50000
+    container_name: jenkins
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

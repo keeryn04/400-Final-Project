@@ -2,7 +2,18 @@
 
 pipeline {
 
-  agent any
+  agent {
+        docker {
+            image 'evanmann/ensf400-final-project:projectDependencies'
+            args '-it'
+            //registryUrl 'https://index.docker.io/v1/'
+            //registryCredentialsId 'your-credentials-id'
+        }
+    }
+
+  tools {
+    jdk 'jdk11'
+  }
 
    environment {
         // This is set so that the Python API tests will recognize it
@@ -14,34 +25,56 @@ pipeline {
 
     // build the war file (the binary).  This is the only
     // place that happens.
-    stage('Build') {
+
+    stage('Checkout') {
       steps {
-        sh './gradlew clean assemble'
-      }
+          script {
+              // Change to the 'demo-master' folder before checking out the code
+              dir('demo-master') {
+                  checkout scm
+                  }
+              }
+          }
+    }
+
+    stage('Build') {
+        steps {
+            script {
+                // Change to the 'demo-master' folder before running gradle
+                dir('demo-master') {
+                    sh 'chmod +x gradlew'
+                    sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew clean assemble'
+                }
+            }
+        }
     }
 
     // run all the unit tests - these do not require anything else
     // to be running and most run very quickly.
     stage('Unit Tests') {
-      steps {
-        sh './gradlew test'
-      }
-      post {
-        always {
-          junit 'build/test-results/test/*.xml'
+        steps {
+            dir('demo-master') {
+                sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew test'
+            }
         }
-      }
+        post {
+            always {
+                junit 'demo-master/build/test-results/test/*.xml'
+            }
+        }
     }
 
     // run the tests which require connection to a
     // running database.
     stage('Database Tests') {
       steps {
-        sh './gradlew integrate'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew integrate'
+        }
       }
       post {
         always {
-          junit 'build/test-results/integrate/*.xml'
+          junit 'demo-master/build/test-results/integrate/*.xml'
         }
       }
     }
@@ -51,51 +84,66 @@ pipeline {
     // These tests do not require a running system.
     stage('BDD Tests') {
       steps {
-        sh './gradlew generateCucumberReports'
-        // generate the code coverage report for jacoco
-        sh './gradlew jacocoTestReport'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew generateCucumberReports'
+          // generate the code coverage report for jacoco
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew jacocoTestReport'
+        }
       }
       post {
           always {
-            junit 'build/test-results/bdd/*.xml'
+            junit 'demo-master/build/test-results/bdd/*.xml'
           }
         }
     }
 
     // Runs an analysis of the code, looking for any
     // patterns that suggest potential bugs.
+    /*
     stage('Static Analysis') {
       steps {
-        sh './gradlew sonarqube'
-        // wait for sonarqube to finish its analysis
-        sleep 5
-        sh './gradlew checkQualityGate'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew sonarqube'
+          // wait for sonarqube to finish its analysis
+          sleep 5
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew checkQualityGate'
+        }
       }
     }
+    */
+    //DOCKER IMAGE NEED SONARQUBE SET UP
 
 
     // Move the binary over to the test environment and
     // get it running, in preparation for tests that
     // require a whole system to be running.
+    
     stage('Deploy to Test') {
       steps {
-      sh './gradlew deployToTestWindowsLocal'
-      // pipenv needs to be installed and on the path for this to work.
-      sh 'PIPENV_IGNORE_VIRTUALENVS=1 pipenv install'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew apprun'
+          // pipenv needs to be installed and on the path for this to work.
+          sh 'PIPENV_IGNORE_VIRTUALENVS=1 pipenv install'
 
-      // Wait here until the server tells us it's up and listening
-      sh './gradlew waitForHeartBeat'
+          // Wait here until the server tells us it's up and listening
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew waitForHeartBeat'
 
-      // clear Zap's memory for the incoming tests
-      sh 'curl http://zap/JSON/core/action/newSession -s --proxy localhost:9888'
+          // clear Zap's memory for the incoming tests
+          sh 'curl http://zap/JSON/core/action/newSession -s --proxy localhost:9888'
+        }
+      
       }
     }
+    
 
 
     // Run the tests which investigate the functioning of the API.
     stage('API Tests') {
       steps {
-        sh './gradlew runApiTests'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew runApiTests'
+        }
+       
       }
       post {
         always {
