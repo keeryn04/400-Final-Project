@@ -121,7 +121,7 @@ pipeline {
     stage('Deploy to Test') {
       steps {
         dir('demo-master') {
-          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew deployToTestWindowsLocal'
+          sh 'export JAVA_HOME=/opt/java/openjdk && gradlew deployToTestWindowsLocal -p deploy_directory="C:/Users/byron/Desktop/test_tools/tomcat-9/webapps"'
           // pipenv needs to be installed and on the path for this to work.
           sh 'PIPENV_IGNORE_VIRTUALENVS=1 pipenv install'
 

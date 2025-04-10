@@ -628,10 +628,10 @@ dependencyCheckAnalyze.finalizedBy 'printReportPathsDependencyCheck'
 
 // This is for when we run tests on the local Windows box
 // you can pass in the property directly on the command line
-// like this: gradlew deployToTestWindowsLocal -Pdeploy_directory="C:/Users/byron/Desktop/test_tools/tomcat-9/webapps"
+// like this: gradlew deployToTestWindowsLocal -p deploy_directory="C:/Users/byron/Desktop/test_tools/tomcat-9/webapps"
 //
 // or, you can have it set as a system property, like this:
-deploy_directory="C:/Users/byron/Desktop/test_tools/tomcat-9/webapps"
+// ORG_GRADLE_PROJECT_deploy_directory="C:/Users/byron/Desktop/test_tools/tomcat-9/webapps"
 task deployToTestWindowsLocal(type: Copy) {
     dependsOn war
 
