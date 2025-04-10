@@ -122,8 +122,6 @@ pipeline {
       steps {
         dir('demo-master') {
           sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew apprun'
-          // pipenv needs to be installed and on the path for this to work.
-          sh 'PIPENV_IGNORE_VIRTUALENVS=1 pipenv install'
 
           // Wait here until the server tells us it's up and listening
           sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew waitForHeartBeat'
