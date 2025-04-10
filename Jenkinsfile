@@ -68,11 +68,13 @@ pipeline {
     // running database.
     stage('Database Tests') {
       steps {
-        sh './gradlew integrate'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew integrate'
+        }
       }
       post {
         always {
-          junit 'build/test-results/integrate/*.xml'
+          junit 'demo-master/build/test-results/integrate/*.xml'
         }
       }
     }
