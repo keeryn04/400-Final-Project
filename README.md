@@ -9,3 +9,4 @@ Cody Casselman, Evan Mann, Sam Haque, Keeryn Johnson
 4. Run the Docker image with: `docker run -it -p 8080:8080 evanmann/ensf400-final-project:apprun`
 
 test
+test
