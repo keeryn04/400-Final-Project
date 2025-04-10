@@ -101,10 +101,12 @@ pipeline {
     // patterns that suggest potential bugs.
     stage('Static Analysis') {
       steps {
-        sh './gradlew sonarqube'
-        // wait for sonarqube to finish its analysis
-        sleep 5
-        sh './gradlew checkQualityGate'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew sonarqube'
+          // wait for sonarqube to finish its analysis
+          sleep 5
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew checkQualityGate'
+        }
       }
     }
 
