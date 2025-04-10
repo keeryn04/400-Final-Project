@@ -84,13 +84,15 @@ pipeline {
     // These tests do not require a running system.
     stage('BDD Tests') {
       steps {
-        sh './gradlew generateCucumberReports'
-        // generate the code coverage report for jacoco
-        sh './gradlew jacocoTestReport'
+        dir('demo-master') {
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew generateCucumberReports'
+          // generate the code coverage report for jacoco
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew jacocoTestReport'
+        }
       }
       post {
           always {
-            junit 'build/test-results/bdd/*.xml'
+            junit 'demo-master/build/test-results/bdd/*.xml'
           }
         }
     }
