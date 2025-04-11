@@ -5,7 +5,7 @@ pipeline {
   agent {
         docker {
             image 'evanmann/ensf400-final-project:projectDependencies'
-            args '-it -p 8080:8080'
+            args '-it'
             //registryUrl 'https://index.docker.io/v1/'
             //registryCredentialsId 'your-credentials-id'
         }
@@ -121,9 +121,8 @@ pipeline {
     stage('Deploy to Test') {
       steps {
         dir('demo-master') {
-          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew bootRun > boot.log 2>&1 &'
-          sh 'sleep 10' // give it time to boot
-          sh 'cat boot.log || true'
+
+          // Wait here until the server tells us it's up and listening
           sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew waitForHeartBeat'
 
           // clear Zap's memory for the incoming tests
