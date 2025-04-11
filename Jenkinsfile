@@ -121,6 +121,7 @@ pipeline {
     stage('Deploy to Test') {
       steps {
         dir('demo-master') {
+          //sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew apprun'
 
           // Wait here until the server tells us it's up and listening
           sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew waitForHeartBeat'

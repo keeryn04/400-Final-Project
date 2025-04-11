@@ -384,7 +384,7 @@ compileJava.finalizedBy writeGitCommitToFile
 static void checkIfAlive() {
     int code
     try {
-        URL url = new URL("http://demo-app:8080/demo")
+        URL url = new URL("http://host.docker.internal:8080/demo")
         HttpURLConnection connection = (HttpURLConnection) url.openConnection()
         connection.setRequestMethod("GET")
         connection.connect()
@@ -416,7 +416,7 @@ void waitForHeartbeat() {
     int code = 0
     while (code != 200){
         try {
-            URL url = new URL("http://demo-app:8080/demo")
+            URL url = new URL("http://host.docker.internal:8080/demo")
             HttpURLConnection connection = (HttpURLConnection) url.openConnection()
             connection.setRequestMethod("GET")
             connection.connect()
