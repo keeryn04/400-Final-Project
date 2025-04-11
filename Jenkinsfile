@@ -31,14 +31,21 @@ pipeline {
 
   post {
     failure {
-      script {
-        setGitHubPullRequestStatus context: 'Jenkins CI', status: 'FAILURE'
-      }
+        setGitHubPullRequestStatus (
+            state: 'FAILURE',
+            context: 'Jenkins',
+            message: 'Build failed',
+            sha: env.GIT_COMMIT
+        )
     }
+
     success {
-      script {
-        setGitHubPullRequestStatus context: 'Jenkins CI', status: 'SUCCESS'
-      }
+        setGitHubPullRequestStatus (
+            state: 'SUCCESS',
+            context: 'Jenkins',
+            message: 'Build succeeded',
+            sha: env.GIT_COMMIT
+        )
     }
   }
 }
