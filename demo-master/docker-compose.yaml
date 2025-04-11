@@ -17,3 +17,9 @@ services:
     stdin_open: true
     tty: true
 
+  zap:  # <-- Add this service
+    image: owasp/zap2docker-stable
+    ports:
+      - "8081:8080"  # ZAP UI (optional)
+      - "9888:8080"  # Proxy port
+
