@@ -11,6 +11,10 @@ pipeline {
         }
     }
 
+  triggers {
+        githubPullRequest()
+    }
+    
   tools {
     jdk 'jdk11'
   }
