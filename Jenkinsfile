@@ -22,12 +22,6 @@ pipeline {
    }
 
   stages {
-    stage('Notify GitHub (pending)') {
-      steps {
-        githubNotify context: 'Jenkins CI', status: 'PENDING', description: 'Build started...'
-      }
-    }
-
     // build the war file (the binary).  This is the only
     // place that happens.
 
@@ -262,11 +256,15 @@ pipeline {
   }
 
   post {
-        success {
-            githubNotify context: 'Jenkins CI', status: 'SUCCESS'
-        }
-        failure {
-            githubNotify context: 'Jenkins CI', status: 'FAILURE'
-        }
+    failure {
+      script {
+        setGitHubPullRequestStatus context: 'Jenkins CI', status: 'FAILURE'
+      }
     }
+    success {
+      script {
+        setGitHubPullRequestStatus context: 'Jenkins CI', status: 'SUCCESS'
+      }
+    }
+  }
 }
