@@ -121,8 +121,9 @@ pipeline {
     stage('Deploy to Test') {
       steps {
         dir('demo-master') {
-          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew bootRun &'
+          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew bootRun > boot.log 2>&1 &'
           sh 'sleep 10' // give it time to boot
+          sh 'cat boot.log || true'
           sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew waitForHeartBeat'
 
           // clear Zap's memory for the incoming tests
