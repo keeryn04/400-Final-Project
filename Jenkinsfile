@@ -5,7 +5,6 @@ pipeline {
   agent {
         docker {
             image 'evanmann/ensf400-final-project:projectDependencies'
-            args '--network=ci-net -it'
             //registryUrl 'https://index.docker.io/v1/'
             //registryCredentialsId 'your-credentials-id'
         }
