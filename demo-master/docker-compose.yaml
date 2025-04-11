@@ -18,7 +18,7 @@ services:
     tty: true
 
   zap:  # <-- Add this service
-    image: owasp/zap2docker-stable
+    image: ghcr.io/zaproxy/zaproxy:stable
     ports:
       - "8081:8080"  # ZAP UI (optional)
       - "9888:8080"  # Proxy port
