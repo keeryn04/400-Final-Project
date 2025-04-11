@@ -19,6 +19,7 @@ pipeline {
         // This is set so that the Python API tests will recognize it
         // and go through the Zap proxy waiting at 9888
         HTTP_PROXY = 'http://127.0.0.1:9888'
+        SONAR_TOKEN = credentials('sonarqube-token')  // Getting the stored sonarqube token to connect with
    }
 
   stages {
@@ -99,7 +100,7 @@ pipeline {
 
     // Runs an analysis of the code, looking for any
     // patterns that suggest potential bugs.
-    /*
+    
     stage('Static Analysis') {
       steps {
         dir('demo-master') {
@@ -110,7 +111,7 @@ pipeline {
         }
       }
     }
-    */
+    
     //DOCKER IMAGE NEED SONARQUBE SET UP
 
 
