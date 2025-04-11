@@ -10,10 +10,6 @@ pipeline {
             //registryCredentialsId 'your-credentials-id'
         }
     }
-
-  triggers {
-        githubPullRequest()
-    }
     
   tools {
     jdk 'jdk11'
