@@ -452,9 +452,21 @@ task checkQualityGate() {
 
 // throws an exception if the quality gate fails.
 static void isQualityGateGood() {
+    // Retrieve the token from environment variables
+    String token = System.getenv("SONAR_TOKEN");
+    if (token == null || token.isEmpty()) {
+        throw new GradleException("SONAR_TOKEN environment variable is not set");
+    }
+
     URL url = new URL("http://host.docker.internal:9000/api/qualitygates/project_status?projectKey=Demo")
     HttpURLConnection connection = (HttpURLConnection) url.openConnection()
     connection.setRequestMethod("GET")
+
+    // Prepare Basic Auth Header using the token
+    String authStr = token + ":";
+    String authEncoded = Base64.getEncoder().encodeToString(authStr.getBytes());
+    connection.setRequestProperty("Authorization", "Basic " + authEncoded);
+
     connection.connect()
     int code = connection.getResponseCode()
     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))
