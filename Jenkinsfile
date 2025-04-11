@@ -121,15 +121,13 @@ pipeline {
     stage('Deploy to Test') {
       steps {
         dir('demo-master') {
-          sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew apprun'
-          // pipenv needs to be installed and on the path for this to work.
-          sh 'PIPENV_IGNORE_VIRTUALENVS=1 pipenv install'
+          //sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew apprun'
 
           // Wait here until the server tells us it's up and listening
           sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew waitForHeartBeat'
 
           // clear Zap's memory for the incoming tests
-          sh 'curl http://zap/JSON/core/action/newSession -s --proxy localhost:9888'
+          //sh 'curl http://zap/JSON/core/action/newSession -s --proxy localhost:9888'
         }
       
       }
