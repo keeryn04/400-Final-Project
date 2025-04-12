@@ -17,7 +17,7 @@ plugins {
 
     // gretty is a gradle plugin to make it easy to run a server and hotswap code at runtime.
     // https://plugins.gradle.org/plugin/org.gretty
-    id 'org.gretty' version '3.1.5'
+    id 'org.gretty' version '3.0.4'
 
     // provides access to a database versioning tool.
     id "org.flywaydb.flyway" version "6.0.8"
@@ -276,8 +276,8 @@ sonarqube {
         property "sonar.java.binaries", "build/classes/java/main"
         property "sonar.junit.reportPaths", "build/test-results/test/,build/test-results/integrate"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/jacoco.xml"
-        property "sonar.login", "admin"
-        property "sonar.password", "password"
+        property "sonar.host.url", "https://glowing-enigma-69rgxx9p4pww3q9q-9000.app.github.dev/"
+        property "sonar.login", System.getenv("SONAR_TOKEN")
     }
 }
 
@@ -384,7 +384,7 @@ compileJava.finalizedBy writeGitCommitToFile
 static void checkIfAlive() {
     int code
     try {
-        URL url = new URL("http://localhost:8080/demo")
+        URL url = new URL("http://host.docker.internal:8080/demo")
         HttpURLConnection connection = (HttpURLConnection) url.openConnection()
         connection.setRequestMethod("GET")
         connection.connect()
@@ -416,7 +416,7 @@ void waitForHeartbeat() {
     int code = 0
     while (code != 200){
         try {
-            URL url = new URL("http://localhost:8080/demo")
+            URL url = new URL("http://host.docker.internal:8080/demo")
             HttpURLConnection connection = (HttpURLConnection) url.openConnection()
             connection.setRequestMethod("GET")
             connection.connect()
@@ -452,9 +452,21 @@ task checkQualityGate() {
 
 // throws an exception if the quality gate fails.
 static void isQualityGateGood() {
-    URL url = new URL("http://localhost:9000/api/qualitygates/project_status?projectKey=Demo")
+    // Retrieve the token from environment variables
+    String token = System.getenv("SONAR_TOKEN");
+    if (token == null || token.isEmpty()) {
+        throw new GradleException("SONAR_TOKEN environment variable is not set");
+    }
+
+    URL url = new URL("https://glowing-enigma-69rgxx9p4pww3q9q-9090.app.github.dev/api/qualitygates/project_status?projectKey=Demo")
     HttpURLConnection connection = (HttpURLConnection) url.openConnection()
     connection.setRequestMethod("GET")
+
+    // Prepare Basic Auth Header using the token
+    String authStr = token + ":";
+    String authEncoded = Base64.getEncoder().encodeToString(authStr.getBytes());
+    connection.setRequestProperty("Authorization", "Basic " + authEncoded);
+
     connection.connect()
     int code = connection.getResponseCode()
     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))
