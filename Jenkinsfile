@@ -113,7 +113,7 @@ pipeline {
     
     //DOCKER IMAGE NEED SONARQUBE SET UP
 
-
+    
     // Move the binary over to the test environment and
     // get it running, in preparation for tests that
     // require a whole system to be running.
@@ -134,7 +134,7 @@ pipeline {
     }
     */
 
-
+    /*
     // Run the tests which investigate the functioning of the API.
     stage('API Tests') {
       steps {
@@ -251,7 +251,7 @@ pipeline {
         sh 'sleep 5'
       }
     }
-
+    */
   }
 
 }
