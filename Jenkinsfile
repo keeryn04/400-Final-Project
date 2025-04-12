@@ -127,7 +127,7 @@ pipeline {
           sh 'export JAVA_HOME=/opt/java/openjdk && ./gradlew waitForHeartBeat'
 
           // clear Zap's memory for the incoming tests
-          //sh 'curl http://zap/JSON/core/action/newSession -s --proxy localhost:9888'
+          sh 'curl http://zap/JSON/core/action/newSession -s --proxy localhost:9888'
         }
       
       }
