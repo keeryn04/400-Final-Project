@@ -458,7 +458,7 @@ static void isQualityGateGood() {
         throw new GradleException("SONAR_TOKEN environment variable is not set");
     }
 
-    URL url = new URL("http://host.docker.internal:9000/api/qualitygates/project_status?projectKey=Demo")
+    URL url = new URL("https://glowing-enigma-69rgxx9p4pww3q9q-9090.app.github.dev/api/qualitygates/project_status?projectKey=Demo")
     HttpURLConnection connection = (HttpURLConnection) url.openConnection()
     connection.setRequestMethod("GET")
 
