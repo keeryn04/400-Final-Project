@@ -24,7 +24,11 @@ pipeline {
   stages {
     stage('Notify GitHub (pending)') {
       steps {
-        githubNotify context: 'Jenkins CI', status: 'PENDING', description: 'Build started...'
+        setGitHubPullRequestStatus (
+            state: 'PENDING',
+            context: 'Jenkins',
+            message: 'Build in progress',
+        )
       }
     }
   }
