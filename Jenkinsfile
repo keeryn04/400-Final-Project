@@ -254,4 +254,21 @@ pipeline {
     */
   }
 
+  post {
+    failure {
+        setGitHubPullRequestStatus (
+            state: 'FAILURE',
+            context: 'Jenkins',
+            message: 'Build failed',
+        )
+    }
+
+    success {
+        setGitHubPullRequestStatus (
+            state: 'SUCCESS',
+            context: 'Jenkins',
+            message: 'Build succeeded',
+        )
+    }
+  }
 }
