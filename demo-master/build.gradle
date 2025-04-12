@@ -276,7 +276,7 @@ sonarqube {
         property "sonar.java.binaries", "build/classes/java/main"
         property "sonar.junit.reportPaths", "build/test-results/test/,build/test-results/integrate"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/jacoco.xml"
-        property "sonar.host.url", "http://host.docker.internal:9000"
+        property "sonar.host.url", "https://glowing-enigma-69rgxx9p4pww3q9q-9000.app.github.dev/"
         property "sonar.login", System.getenv("SONAR_TOKEN")
     }
 }
