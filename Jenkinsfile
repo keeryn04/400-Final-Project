@@ -35,7 +35,6 @@ pipeline {
             state: 'FAILURE',
             context: 'Jenkins',
             message: 'Build failed',
-            sha: env.GIT_COMMIT
         )
     }
 
@@ -44,7 +43,6 @@ pipeline {
             state: 'SUCCESS',
             context: 'Jenkins',
             message: 'Build succeeded',
-            sha: env.GIT_COMMIT
         )
     }
   }
