@@ -99,7 +99,7 @@ pipeline {
 
     // Runs an analysis of the code, looking for any
     // patterns that suggest potential bugs.
-    /*
+    
     stage('Static Analysis') {
       steps {
         dir('demo-master') {
@@ -110,14 +110,14 @@ pipeline {
         }
       }
     }
-    */
+    
     //DOCKER IMAGE NEED SONARQUBE SET UP
 
 
     // Move the binary over to the test environment and
     // get it running, in preparation for tests that
     // require a whole system to be running.
-    
+    /*
     stage('Deploy to Test') {
       steps {
         dir('demo-master') {
@@ -132,7 +132,7 @@ pipeline {
       
       }
     }
-    
+    */
 
 
     // Run the tests which investigate the functioning of the API.
